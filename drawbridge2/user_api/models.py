@@ -33,3 +33,19 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
 	objects = AppUserManager()
 	def __str__(self):
 		return self.username
+
+
+class StoredCredential(models.Model):
+	user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
+	title = models.CharField(max_length=255, blank=True)
+	username = models.CharField(max_length=255, blank=True)
+	password = models.CharField(max_length=255, blank=True)
+	url = models.URLField(blank=True)
+
+	def __str__(self):
+		if self.title and self.username:
+			return f"title: {self.title}, username: {self.username}"
+		elif self.title:
+			return self.title
+		elif self.username:
+			return self.username

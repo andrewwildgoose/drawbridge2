@@ -1,6 +1,8 @@
 from django.forms import ValidationError
 from rest_framework import serializers
 from django.contrib.auth import get_user_model, authenticate
+from .models import StoredCredential
+
 
 UserModel = get_user_model()
 
@@ -30,3 +32,17 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model =  UserModel
         fields = ('username', 'email')
+
+
+class StoredCredentialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = StoredCredential
+        fields = ['id', 'title', 'username', 'password', 'url']
+
+
+class PasswordGenerationSerializer(serializers.Serializer):
+    length = serializers.IntegerField()
+    include_lower = serializers.BooleanField()
+    include_upper = serializers.BooleanField()
+    include_number = serializers.BooleanField()
+    include_special = serializers.BooleanField()

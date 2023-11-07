@@ -13,7 +13,7 @@ const client = axios.create({
 
 const UserInfo = () => {
     const [user, setUser] = useState();
-    const { currentUser} = useAuth();
+    const { currentUser } = useAuth();
 
     useEffect(() => {
         console.log("Current user on user page: ", currentUser);

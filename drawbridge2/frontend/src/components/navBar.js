@@ -24,6 +24,9 @@ const NavBar = () => {
                 <li className="nav-item">
                 <a className="nav-link" href="/logout">Logout</a>
                 </li>
+                <li className="nav-item">
+                <a className="nav-link" href="/password_generator">Password Generator</a>
+                </li>
             </ul>
         </div>
         </nav>

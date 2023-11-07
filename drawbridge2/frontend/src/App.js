@@ -10,6 +10,7 @@ import UserInfo from './components/user';
 import LandingPage from './components/landing';
 import Logout from './components/logout';
 import { AuthProvider } from './components/authContext';
+import PasswordGenerator from './components/password_generator';
 
 
 function App() {
@@ -22,10 +23,10 @@ function App() {
           <Routes>
             <Route path='/register' element={<Registration />} />
             <Route path='/login' element={<Login />} />
-            <Route path='/user' element={<UserInfo/>} />
+            <Route path='/user' element={<UserInfo />} />
             <Route path='/logout' element={<Logout />} />
-            <Route path='/' element={<LandingPage/>}>
-            </Route>
+            <Route path='/' element={<LandingPage />} />
+            <Route path='/password_generator' element={<PasswordGenerator />} />
           </Routes>
         </div>
       </Router>

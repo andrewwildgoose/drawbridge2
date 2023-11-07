@@ -48,8 +48,6 @@ CORS_ALLOW_HEADERS = [
     "x-requested-with",
 ]
 
-SESSION_COOKIE_HTTPONLY = False
-
 
 # Application definition
 

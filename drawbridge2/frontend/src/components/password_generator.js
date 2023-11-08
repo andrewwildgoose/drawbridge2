@@ -25,6 +25,18 @@ const PasswordGenerator = () => {
         include_number: true,
         include_special: true,
     });
+
+    useEffect(() => {
+        const clipboard = new ClipboardJS('.copy_button');
+        clipboard.on('success', (e) => {
+        console.log("copy success");
+        e.clearSelection();
+    });
+    
+    return () => {
+        clipboard.destroy(); // Clean up the ClipboardJS instance when the component unmounts.
+    };
+    }, []);
     
 
     const handleChange = (event) => {
@@ -62,8 +74,10 @@ const PasswordGenerator = () => {
     };
 
     const handleCopyToClipboard = () => {
+        console.log("copy button pressed")
         const clipboard = new ClipboardJS('.copy-button');
         clipboard.on('success', (e) => {
+            console.log("copy success")
             e.clearSelection();
             clipboard.destroy();
         });
@@ -79,9 +93,10 @@ const PasswordGenerator = () => {
             </div>
             <button
                 className="copy_button"
-                onClick={handleCopyToClipboard}
-                data-clipboard-text={password}
-            >copy</button>
+                data-clipboard-target=".generated_password"
+            >
+            Copy
+            </button>
             </div>}
             <form onSubmit={handleSubmit}>
             <div className='input_pair'>
@@ -131,7 +146,7 @@ const PasswordGenerator = () => {
             <div className='input_pair'>
             <input
                 type="checkbox"
-                name="include_special"
+                name="include_special" 
                 checked={constraints.include_special}
                 onChange={handleChange}
                 />

@@ -24,8 +24,8 @@ def build_password(length, include_lower, include_upper, include_number, include
     '''cycle through adding more random characters within the parameters to meet the length requirement'''
     if length > len(password_chars):
         for letter in range(length - len(password_chars)):
-            letter = random.choice(parameters)
-            password_chars.append(letter())
+            character = random.choice(parameters)
+            password_chars.append(character())
 
     '''shuffle, join and return the new password'''
     random.shuffle(password_chars)

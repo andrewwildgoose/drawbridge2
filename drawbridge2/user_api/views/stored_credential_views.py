@@ -22,14 +22,14 @@ class StoredCredentialDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class GeneratePasswordView(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
-    authentication_classes = (SessionAuthentication,)
+    permission_classes = (permissions.AllowAny,)
+    authentication_classes = ()
     ##
     def post(self, request):
         serializer = PasswordGenerationSerializer(data=request.data)
 
         if serializer.is_valid():
-            data = serializer.validated_data
+            data = serializer.data
             length = data['length']
             include_lower = data['include_lower']
             include_upper = data['include_upper']
@@ -42,11 +42,3 @@ class GeneratePasswordView(APIView):
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-
-class TestView(APIView):
-    permission_classes = (permissions.IsAuthenticated,)
-    authentication_classes = (SessionAuthentication,)
-    def post(self, request):
-        return Response({"password": "generated_password"}, status=status.HTTP_200_OK)
-    def get(self, request):
-        return Response({"password": "generated_password"}, status=status.HTTP_200_OK)

@@ -1,105 +1,146 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../components/authContext';
+import ClipboardJS from 'clipboard';
+
+import '../css/password_generator.css'
 
 axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 axios.defaults.withCredentials = true;
 
 const client = axios.create({
-    baseURL: "http://127.0.0.1:8000" // Replace with secret variable before production
+    baseURL: "http://127.0.0.1:8000", // Replace with secret variable before production
+    withCredentials: true,
 });
 
 const PasswordGenerator = () => {
+    const { currentUser } = useAuth();
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     const [constraints, setConstraints] = useState({
         length: 12,
-        includeLower: true,
-        includeUpper: true,
-        includeNumber: true,
-        includeSpecial: true,
+        include_lower: true,
+        include_upper: true,
+        include_number: true,
+        include_special: true,
     });
+    
 
     const handleChange = (event) => {
         const { name, value, type, checked } = event.target;
+        console.log(event.target)
         setConstraints({
         ...constraints,
         [name]: type === 'checkbox' ? checked : value,
         });
+        handleSubmit(event);
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        // Error handling for password request with no constraints
+        if (
+            !constraints.include_lower &&
+            !constraints.include_upper &&
+            !constraints.include_number &&
+            !constraints.include_special
+        ) {
+            setError('Please select at least one constraint');
+            setPassword(null)
+            return;
+        } else {
+            setError(null)
+        }
+        // API call to generate password
         try {
-            const response = await client.post('/api/generate_password', constraints, { withCredentials: true });
+            const response = await client.post('/api/generate_password', constraints, );
             setPassword(response.data.password);
         } catch (error) {
             console.error('Password generation failed', error);
         }
     };
 
+    const handleCopyToClipboard = () => {
+        const clipboard = new ClipboardJS('.copy-button');
+        clipboard.on('success', (e) => {
+            e.clearSelection();
+            clipboard.destroy();
+        });
+    };
+
     return (
-        <div>
+        <div className='generator'>
         <h2>Password Generator</h2>
-        <form onSubmit={handleSubmit}>
-            <div>
-            <label>
-                Length:
-                <input
+        {error && <p>{error}</p>}
+        {password && <div className='result'>
+            <div className='generated_password'>
+            {password}
+            </div>
+            <button
+                className="copy_button"
+                onClick={handleCopyToClipboard}
+                data-clipboard-text={password}
+            >copy</button>
+            </div>}
+            <form onSubmit={handleSubmit}>
+            <div className='input_pair'>
+            <input
                 type="number"
                 name="length"
                 value={constraints.length}
                 onChange={handleChange}
                 />
+            <label>
+                Length
             </label>
             </div>
-            <div>
-            <label>
-                Include Lowercase:
-                <input
+            <div className='input_pair'>
+            <input
                 type="checkbox"
-                name="includeLower"
-                checked={constraints.includeLower}
+                name="include_lower"
+                checked={constraints.include_lower}
                 onChange={handleChange}
                 />
+            <label>
+                Include Lowercase   
             </label>
             </div>
-            <div>
-            <label>
-                Include Uppercase:
-                <input
+            <div className='input_pair'>
+            <input
                 type="checkbox"
-                name="includeUpper"
-                checked={constraints.includeUpper}
+                name="include_upper"
+                checked={constraints.include_upper}
                 onChange={handleChange}
                 />
+            <label>
+                Include Uppercase
             </label>
             </div>
-            <div>
-            <label>
-                Include Numbers:
-                <input
+            <div className='input_pair'>
+            <input
                 type="checkbox"
-                name="includeNumber"
-                checked={constraints.includeNumber}
+                name="include_number"
+                checked={constraints.include_number}
                 onChange={handleChange}
                 />
+            <label>
+                Include Numbers
             </label>
             </div>
-            <div>
-            <label>
-                Include Special Characters:
-                <input
+            <div className='input_pair'>
+            <input
                 type="checkbox"
-                name="includeSpecial"
-                checked={constraints.includeSpecial}
+                name="include_special"
+                checked={constraints.include_special}
                 onChange={handleChange}
                 />
+            <label>
+                Include Special Characters
             </label>
             </div>
             <button type="submit">Generate Password</button>
         </form>
-        {password && <div>Generated Password: {password}</div>}
         </div>
     );
 };

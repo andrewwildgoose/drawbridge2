@@ -11,6 +11,7 @@ import LandingPage from './components/landing';
 import Logout from './components/logout';
 import { AuthProvider } from './components/authContext';
 import PasswordGenerator from './components/password_generator';
+import CredentialStore from './components/stored_credentials';
 
 
 function App() {
@@ -27,6 +28,7 @@ function App() {
             <Route path='/logout' element={<Logout />} />
             <Route path='/' element={<LandingPage />} />
             <Route path='/password_generator' element={<PasswordGenerator />} />
+            <Route path='/stored_credentials' element={<CredentialStore />} />
           </Routes>
         </div>
       </Router>

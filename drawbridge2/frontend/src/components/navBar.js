@@ -1,8 +1,5 @@
 import React from 'react';
 
-import Logout from './logout';
-
-import { useAuth } from '../components/authContext';
 
 const NavBar = () => {
     return (
@@ -27,6 +24,10 @@ const NavBar = () => {
                 <li className="nav-item">
                 <a className="nav-link" href="/password_generator">Password Generator</a>
                 </li>
+                <li className="nav-item">
+                <a className="nav-link" href="/stored_credentials">Stored Credentials</a>
+                </li>
+
             </ul>
         </div>
         </nav>

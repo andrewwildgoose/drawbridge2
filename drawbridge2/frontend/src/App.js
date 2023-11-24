@@ -13,7 +13,6 @@ import { AuthProvider } from './components/authContext';
 import PasswordGenerator from './components/password_generator';
 import CredentialStore from './components/stored_credentials';
 
-
 function App() {
 
   return (

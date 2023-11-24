@@ -11,7 +11,6 @@ axios.defaults.withCredentials = true;
 
 const client = axios.create({
     baseURL: "http://127.0.0.1:8000", // Replace with secret variable before production
-    withCredentials: true,
 });
 
 const PasswordGenerator = () => {
@@ -25,6 +24,27 @@ const PasswordGenerator = () => {
         include_number: true,
         include_special: true,
     });
+
+    // Extract CSRF Token from the session to send with the POST request
+    function extractCSRFToken(cookieString) {
+        const tokenPrefix = 'csrftoken=';
+        const tokenIndex = cookieString.indexOf(tokenPrefix);
+    
+        if (tokenIndex !== -1) {
+            const startIndex = tokenIndex + tokenPrefix.length;
+            const token = cookieString.substring(startIndex).trim();
+            return token;
+        }
+    
+        return null; // Return null if the token is not found
+    }
+
+    // Set the headers for the POST request
+    const config = {
+        withCredentials: true,
+        headers: {'X-CSRFToken': extractCSRFToken(document.cookie)},
+    };
+    
 
     useEffect(() => {
         const clipboard = new ClipboardJS('.copy_button');
@@ -64,20 +84,19 @@ const PasswordGenerator = () => {
         } else {
             setError(null)
         }
-        // API call to generate password
+        // API call to generate password using the constraints and the headers config
         try {
-            const response = await client.post('/api/generate_password', constraints, );
+            const response = await client.post('/api/generate_password', constraints, config);
             setPassword(response.data.password);
         } catch (error) {
             console.error('Password generation failed', error);
         }
     };
 
+    // Copy the password to the user's clipboard
     const handleCopyToClipboard = () => {
-        console.log("copy button pressed")
-        const clipboard = new ClipboardJS('.copy-button');
+        const clipboard = new ClipboardJS('.copy_button');
         clipboard.on('success', (e) => {
-            console.log("copy success")
             e.clearSelection();
             clipboard.destroy();
         });
@@ -89,15 +108,14 @@ const PasswordGenerator = () => {
         {error && <p>{error}</p>}
         {password && <div className='result'>
             <div className='generated_password'>
-            {password}
+                {password}
             </div>
-            <button
-                className="copy_button"
-                data-clipboard-target=".generated_password"
-            >
-            Copy
-            </button>
-            </div>}
+            <div className="copy_button">
+                <button data-clipboard-target=".generated_password">
+                Copy
+                </button>    
+            </div>
+        </div>}
             <form onSubmit={handleSubmit}>
             <div className='input_pair'>
             <input

@@ -22,10 +22,11 @@ class StoredCredentialDetailView(generics.RetrieveUpdateDestroyAPIView):
 
 
 class GeneratePasswordView(APIView):
-    permission_classes = (permissions.AllowAny,)
-    authentication_classes = ()
+    permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (SessionAuthentication,)
     ##
     def post(self, request):
+        print(request.data)
         serializer = PasswordGenerationSerializer(data=request.data)
 
         if serializer.is_valid():

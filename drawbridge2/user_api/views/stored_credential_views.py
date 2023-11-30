@@ -40,4 +40,18 @@ class GeneratePasswordView(APIView):
             return Response({"password": generated_password}, status=status.HTTP_200_OK)
         else:
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
+class StoreCredentialView(APIView):
+    permission_classes = (permissions.IsAuthenticated,)
+    authentication_classes = (SessionAuthentication,)
+
+    def post(self, request):
+        print(f"Request.data: {request.data}")
+        data_with_user = dict(request.data)  # Assuming you're sending data in the request body
+        data_with_user['user_id'] = request.user.user_id
+        print(f"Data with user: {data_with_user}")
+        serializer = StoredCredentialSerializer(data=data_with_user)
+        if serializer.is_valid():
+            serializer.save()  # Save the new stored credential
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

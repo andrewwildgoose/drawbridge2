@@ -36,7 +36,7 @@ class AppUser(AbstractBaseUser, PermissionsMixin):
 
 
 class StoredCredential(models.Model):
-	user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
+	user_id = models.ForeignKey(AppUser, on_delete=models.CASCADE)
 	title = models.CharField(max_length=255, blank=True)
 	username = models.CharField(max_length=255, blank=True)
 	password = models.CharField(max_length=255, blank=True)

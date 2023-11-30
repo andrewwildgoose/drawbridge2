@@ -37,7 +37,7 @@ class UserSerializer(serializers.ModelSerializer):
 class StoredCredentialSerializer(serializers.ModelSerializer):
     class Meta:
         model = StoredCredential
-        fields = ['id', 'title', 'username', 'password', 'url']
+        fields = ['user_id', 'title', 'username', 'password', 'url']
 
 
 class PasswordGenerationSerializer(serializers.Serializer):

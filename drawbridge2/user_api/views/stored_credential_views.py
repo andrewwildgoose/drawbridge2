@@ -3,7 +3,6 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from ..serializers import *
 from rest_framework import permissions, status, generics
-from ..validations import custom_validation, validate_email, validate_password
 from ..models import StoredCredential
 from ..password_tools import password_builder
 
@@ -26,7 +25,6 @@ class GeneratePasswordView(APIView):
     authentication_classes = (SessionAuthentication,)
     ##
     def post(self, request):
-        print(request.data)
         serializer = PasswordGenerationSerializer(data=request.data)
 
         if serializer.is_valid():

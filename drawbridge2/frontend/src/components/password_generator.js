@@ -9,9 +9,7 @@ axios.defaults.xsrfCookieName = 'csrftoken';
 axios.defaults.xsrfHeaderName = 'X-CSRFToken';
 axios.defaults.withCredentials = true;
 
-const client = axios.create({
-    baseURL: "http://127.0.0.1:8000", // Replace with secret variable before production
-});
+
 
 const PasswordGenerator = () => {
     const { currentUser } = useAuth();
@@ -23,6 +21,11 @@ const PasswordGenerator = () => {
         include_upper: true,
         include_number: true,
         include_special: true,
+    });
+    
+    const client = axios.create({
+        baseURL: "http://127.0.0.1:8000", // Replace with secret variable before production
+        headers: {'X-CSRFToken': extractCSRFToken(document.cookie)},
     });
 
     // Extract CSRF Token from the session to send with the POST request
@@ -39,23 +42,16 @@ const PasswordGenerator = () => {
         return null; // Return null if the token is not found
     }
 
-    // Set the headers for the POST request
-    const config = {
-        withCredentials: true,
-        headers: {'X-CSRFToken': extractCSRFToken(document.cookie)},
-    };
-    
-
     useEffect(() => {
         const clipboard = new ClipboardJS('.copy_button');
         clipboard.on('success', (e) => {
         console.log("copy success");
         e.clearSelection();
-    });
+        });
     
-    return () => {
-        clipboard.destroy(); // Clean up the ClipboardJS instance when the component unmounts.
-    };
+        return () => {
+            clipboard.destroy(); // Clean up the ClipboardJS instance when the component unmounts.
+        };
     }, []);
     
 
@@ -86,7 +82,9 @@ const PasswordGenerator = () => {
         }
         // API call to generate password using the constraints and the headers config
         try {
-            const response = await client.post('/api/generate_password', constraints, config);
+            console.log("CRSF Token: ", document.cookie)
+            console.log("CRSF Token Stripped: ", extractCSRFToken(document.cookie))
+            const response = await client.post('/api/generate_password', constraints);
             setPassword(response.data.password);
         } catch (error) {
             console.error('Password generation failed', error);

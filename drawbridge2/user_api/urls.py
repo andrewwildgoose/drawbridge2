@@ -8,4 +8,5 @@ urlpatterns = [
 	path('user', user_views.UserView.as_view(), name='user'),
     path('user_saved_credentials', stored_credential_views.StoredCredentialListView.as_view(), name='user_saved_credentials'),
     path('generate_password', stored_credential_views.GeneratePasswordView.as_view(), name='generate_password'),
+    path('get_csrf_token', user_views.GetCSRFToken.as_view(), name='get_csrf_token'),
 ]

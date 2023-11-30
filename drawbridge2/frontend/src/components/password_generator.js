@@ -42,11 +42,11 @@ const PasswordGenerator = () => {
         return null; // Return null if the token is not found
     }
 
+    // Copy the password to the user's clipboard
     useEffect(() => {
-        const clipboard = new ClipboardJS('.copy_button');
+        const clipboard = new ClipboardJS('#copy_button');
         clipboard.on('success', (e) => {
-        console.log("copy success");
-        e.clearSelection();
+            e.clearSelection();
         });
     
         return () => {
@@ -92,13 +92,6 @@ const PasswordGenerator = () => {
     };
 
     // Copy the password to the user's clipboard
-    const handleCopyToClipboard = () => {
-        const clipboard = new ClipboardJS('.copy_button');
-        clipboard.on('success', (e) => {
-            e.clearSelection();
-            clipboard.destroy();
-        });
-    };
 
     return (
         <div className='generator'>
@@ -109,7 +102,7 @@ const PasswordGenerator = () => {
                 {password}
             </div>
             <div className="copy_button">
-                <button data-clipboard-target=".generated_password">
+                <button id="copy_button" data-clipboard-target=".generated_password">
                 Copy
                 </button>    
             </div>

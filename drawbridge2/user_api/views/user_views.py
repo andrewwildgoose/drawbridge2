@@ -55,7 +55,7 @@ class UserView(APIView):
 		serializer = UserSerializer(request.user)
 		return Response({'user': serializer.data}, status=status.HTTP_200_OK)
 
-
+#TODO: Flagged for deletion, not currently being used.
 class GetCSRFToken(APIView):
 	permission_classes = (permissions.IsAuthenticated,)
 	authentication_classes = (SessionAuthentication,)

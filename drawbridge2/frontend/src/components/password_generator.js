@@ -11,7 +11,7 @@ axios.defaults.withCredentials = true;
 
 
 
-const PasswordGenerator = () => {
+const PasswordGenerator = ({ onPasswordChange }) => {
     const { currentUser } = useAuth();
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
@@ -82,10 +82,9 @@ const PasswordGenerator = () => {
         }
         // API call to generate password using the constraints and the headers config
         try {
-            console.log("CRSF Token: ", document.cookie)
-            console.log("CRSF Token Stripped: ", extractCSRFToken(document.cookie))
             const response = await client.post('/api/generate_password', constraints);
             setPassword(response.data.password);
+            onPasswordChange(response.data.password);
         } catch (error) {
             console.error('Password generation failed', error);
         }
@@ -95,7 +94,7 @@ const PasswordGenerator = () => {
 
     return (
         <div className='generator'>
-        <h2>Password Generator</h2>
+        {!password && <h2>Password Generator</h2>}
         {error && <p>{error}</p>}
         {password && <div className='result'>
             <div className='generated_password'>
@@ -163,7 +162,7 @@ const PasswordGenerator = () => {
                 Include Special Characters
             </label>
             </div>
-            <button type="submit">Generate Password</button>
+            <button type="submit" className='button'>Generate Password</button>
         </form>
         </div>
     );

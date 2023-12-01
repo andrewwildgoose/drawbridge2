@@ -37,3 +37,17 @@
   }
 }
 
+.button {
+  background-color: #02a8a0;
+  color: #fff;
+  font-size: 1.25rem;
+  padding: 5px 5px;
+  margin: 2px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.button:hover {
+  background-color: #02bdb3;
+}

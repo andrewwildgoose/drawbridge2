@@ -46,10 +46,14 @@ class StoreCredentialView(APIView):
     authentication_classes = (SessionAuthentication,)
 
     def post(self, request):
-        print(f"Request.data: {request.data}")
-        data_with_user = dict(request.data)  # Assuming you're sending data in the request body
-        data_with_user['user_id'] = request.user.user_id
-        print(f"Data with user: {data_with_user}")
+        data_with_user = {
+            'user_id': request.user.user_id,  # Assuming user_id is the correct field to link users
+            'title': request.data.get('title', ''),  # Include other required fields as necessary
+            'username': request.data.get('username', ''),
+            'password': request.data.get('password', ''),
+            'url': request.data.get('url', ''),
+        }
+
         serializer = StoredCredentialSerializer(data=data_with_user)
         if serializer.is_valid():
             serializer.save()  # Save the new stored credential

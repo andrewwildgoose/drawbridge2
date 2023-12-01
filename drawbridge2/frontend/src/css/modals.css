@@ -1,0 +1,49 @@
+.modalBackground {
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(200, 200, 200, 0.6);
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modalContainer {
+    width: 60vw;
+    height: 60vh;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+.modalGeneratorContainer {
+    width: 30vw;
+    height: 60vh;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.modalCloseButton {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.modalContainer .modalTitle {
+    display: inline-block;
+    text-align: center;
+    margin-top: 10px;
+    font-size: 1.25rem;
+}
+
+.modalContainer .modalContent {
+    flex: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.7rem;
+    text-align: center;
+}

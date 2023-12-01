@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../components/authContext';
+import CredentialModal from './new_credential_modal';
 
 import '../css/stored_credentials.css'
 
@@ -15,6 +16,7 @@ const client = axios.create({
 
 const CredentialStore = () => {
     const [ credentialList, setCredentialList ] = useState([]);
+    const [openModal, setOpenModal] = useState(false);
 
     useEffect(() => {
         const fetchCredentialList = async () => {
@@ -32,13 +34,24 @@ const CredentialStore = () => {
 
     return (
         <div className='credential_store'>
-        <h2>Credentials</h2>
+            <h2>Credentials</h2>
+            <button 
+                className='button'
+                onClick={() => {
+                    setOpenModal(true);
+                    }
+                }
+            >
+                Add New Credential
+            </button>
+            {openModal && <CredentialModal closeModal={setOpenModal}/>}
             {credentialList.length > 0 ? (
                 <div>
                     {credentialList.map((credential, index) => (
-                        <div key={index}>
-                            <p>{credential.title}</p>
-                            {/* Render other credential details here */}
+                        <div className='stored_credential' key={index}>
+                            <div class="credential-title">{credential.title}</div>
+                            <div class="credential-username">{credential.username}</div>
+                            <div class="credential-url">{credential.url}</div>
                         </div>
                     ))}
                 </div>

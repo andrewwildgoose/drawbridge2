@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useAuth } from '../components/authContext';
 import CredentialModal from './new_credential_modal';
-
+import Credential from './credential';
 import '../css/stored_credentials.css'
 
 axios.defaults.xsrfCookieName = 'csrftoken';
@@ -48,11 +48,7 @@ const CredentialStore = () => {
             {credentialList.length > 0 ? (
                 <div>
                     {credentialList.map((credential, index) => (
-                        <div className='stored_credential' key={index}>
-                            <div class="credential-title">{credential.title}</div>
-                            <div class="credential-username">{credential.username}</div>
-                            <div class="credential-url">{credential.url}</div>
-                        </div>
+                        <Credential key={index} credential={credential} />
                     ))}
                 </div>
             ) : (

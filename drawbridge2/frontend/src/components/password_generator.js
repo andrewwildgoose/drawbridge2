@@ -62,7 +62,8 @@ const PasswordGenerator = ({ onPasswordChange }) => {
         ...constraints,
         [name]: type === 'checkbox' ? checked : value,
         });
-        handleSubmit(event);
+        console.log(constraints)
+        // handleSubmit(event);
     };
 
     const handleSubmit = async (e) => {

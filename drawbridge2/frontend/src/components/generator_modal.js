@@ -7,19 +7,13 @@ function GeneratorModal({ closeGenerator, sendGeneratedPassword }) {
 
     const [generatedPassword, setGeneratedPassword] = useState('');
 
-    // const handleConfirmPassword = () => {
-    //     console.log("Password: ", generatedPassword)
-    //     // Assuming 'password' holds the generated password
-    //     // addPassword(generatedPassword); // Pass generated password back to CredentialModal
-    //     closeGenerator(false); // Close the GeneratorModal
-    // };
-
     const handlePasswordChange = (newPassword) => {
         console.log("Password in generator modal: ", newPassword)
         setGeneratedPassword(newPassword)
     }
 
     const handleConfirmPassword = () => {
+        console.log("Sending password from generator modal: ", generatedPassword)
         sendGeneratedPassword(generatedPassword)
     }
 

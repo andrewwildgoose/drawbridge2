@@ -51,3 +51,15 @@
 .button:hover {
   background-color: #02bdb3;
 }
+
+.hover_buttons {
+  position: relative;
+  width: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.key_img {
+  width: 20px;
+  height: 20px; 
+}

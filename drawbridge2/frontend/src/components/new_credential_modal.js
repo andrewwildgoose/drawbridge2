@@ -17,6 +17,9 @@ axios.defaults.withCredentials = true;
 function CredentialModal({ closeModal }) {
 
     const [openGenerator, setOpenGenerator] = useState(false);
+    const [showPassword, setShowPassword] = useState(false);
+    console.log("showPassword at launch:", showPassword)
+
     
     const client = axios.create({
         baseURL: "http://127.0.0.1:8000", // TODO:Replace with secret variable before production
@@ -37,6 +40,14 @@ function CredentialModal({ closeModal }) {
         return null; // Return null if the token is not found
     }
     
+    const handleChange = async () => {
+        setShowPassword(true);
+
+        setTimeout(() => {
+            setShowPassword(false);
+        }, 1000); // stop showing after 1 second
+
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -62,6 +73,7 @@ function CredentialModal({ closeModal }) {
     const handleAddPassword = (copiedPassword) => {
         console.log("Password in credential modal: ", copiedPassword)
         setFormData({ ...formData, password: copiedPassword })
+        handleChange();
     };
 
     return (
@@ -90,19 +102,17 @@ function CredentialModal({ closeModal }) {
                             placeholder="Username"
                             name='username'
                             size="30"
-                            
                             onChange={(e) => setFormData({ ...formData, username: e.target.value })}
                             />
                         </div>
                         <div className='passwordField'>
                             <input
-                            className='credentialInput'
-                            type='password'
+                            className={showPassword ? "effect" : "credentialInput"}
+                            type="password"
                             placeholder="Password"
                             name='password'
                             size="30"
                             value={formData.password}
-                            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                             />
                             <button 
                                 className='passwordButton' 
@@ -110,7 +120,6 @@ function CredentialModal({ closeModal }) {
                             > 
                                 Generate 
                             </button>
-                            
                         </div>
                         <div>
                             <input 
